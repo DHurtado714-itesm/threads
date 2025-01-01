@@ -15,7 +15,7 @@ import { z } from "zod";
 import { Textarea } from "../ui/textarea";
 import { useRouter } from "next/navigation";
 import { usePathname } from "next/navigation";
-import { useOrganization } from "@clerk/nextjs";
+// import { useOrganization } from "@clerk/nextjs";
 import { ThreadValidation } from "@/lib/validations/thread";
 import { createThread } from "@/lib/actions/thread.actions";
 
@@ -26,7 +26,7 @@ interface PostThreadProps {
 function PostThread({ userId }: PostThreadProps) {
   const router = useRouter();
   const pathname = usePathname();
-  const { organization } = useOrganization();
+  // const { organization } = useOrganization();
 
   const form = useForm<z.infer<typeof ThreadValidation>>({
     resolver: zodResolver(ThreadValidation),
