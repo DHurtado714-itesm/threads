@@ -21,9 +21,8 @@ export async function updateUser({
   image,
   path,
 }: UserProps): Promise<void> {
-  await connectToDB();
-
   try {
+    await connectToDB();
     await User.findOneAndUpdate(
       { id: userId },
       {
@@ -43,5 +42,20 @@ export async function updateUser({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } catch (error: any) {
     throw new Error(`Failed to create/update user: ${error.message}`);
+  }
+}
+
+export async function fetchUser(userId: string) {
+  try {
+    await connectToDB();
+
+    return await User.findOne({ id: userId })
+    //   .populate({
+    //   path: "communities",
+    //   model: Community,
+    // });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    throw new Error(`Failed to fetch user: ${error.message}`);
   }
 }
