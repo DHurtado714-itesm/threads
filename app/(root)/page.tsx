@@ -7,11 +7,11 @@ import ThreadCard from "@/components/cards/ThreadCard";
 import { fetchPosts } from "@/lib/actions/thread.actions";
 import { fetchUser } from "@/lib/actions/user.actions";
 
-async function Home({
-  searchParams,
-}: {
+interface HomeProps {
   searchParams: { [key: string]: string | undefined };
-}) {
+}
+
+async function Home({ searchParams }: HomeProps) {
   const user = await currentUser();
   if (!user) return null;
 
