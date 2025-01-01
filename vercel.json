@@ -5,7 +5,10 @@
   "framework": "nextjs",
   "git": {
     "deploymentEnabled": {
-      "main": true
+      "main": true,
+      "dev": false,
+      "feature/*": false,
+      "*": false
     }
   },
   "headers": [
