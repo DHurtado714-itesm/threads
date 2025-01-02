@@ -15,6 +15,7 @@ interface SearchPageProps {
 }
 
 async function Page({ searchParams }: SearchPageProps) {
+  const parsedSearchParams = new URLSearchParams(String(searchParams));
   const user = await currentUser();
   if (!user) return null;
 
@@ -23,8 +24,8 @@ async function Page({ searchParams }: SearchPageProps) {
 
   const result = await fetchUsers({
     userId: user.id,
-    searchString: searchParams.q || "",
-    pageNumber: Number(searchParams?.page) || 1,
+    searchString: parsedSearchParams.get("q") || "",
+    pageNumber: Number(parsedSearchParams.get("page")) || 1,
     pageSize: 25,
   });
 
