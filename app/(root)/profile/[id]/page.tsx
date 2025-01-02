@@ -10,11 +10,20 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { fetchUser } from "@/lib/actions/user.actions";
 
-async function Page({ params }: { params: { id: string } }) {
+interface ProfilePageProps {
+  searchParams: {
+    id: string;
+  };
+}
+
+async function Page({ searchParams }: ProfilePageProps) {
+  const parsedSearchParams = new URLSearchParams(String(searchParams));
   const user = await currentUser();
   if (!user) return null;
 
-  const userInfo = await fetchUser({ userId: params.id });
+  const userInfo = await fetchUser({
+    userId: parsedSearchParams.get("id") || "",
+  });
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   return (

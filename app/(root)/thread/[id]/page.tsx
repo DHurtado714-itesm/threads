@@ -9,8 +9,15 @@ import { fetchThreadById } from "@/lib/actions/thread.actions";
 
 export const revalidate = 0;
 
-async function page({ params }: { params: { id: string } }) {
-  if (!params.id) return null;
+interface ThreadPageProps {
+  searchParams: {
+    id: string;
+  };
+}
+
+async function page({ searchParams }: ThreadPageProps) {
+  const parsedSearchParams = new URLSearchParams(String(searchParams));
+  if (!parsedSearchParams.get("id")) return null;
 
   const user = await currentUser();
   if (!user) return null;
@@ -18,7 +25,7 @@ async function page({ params }: { params: { id: string } }) {
   const userInfo = await fetchUser({ userId: user.id });
   if (!userInfo?.onboarded) redirect("/onboarding");
 
-  const thread = await fetchThreadById(params.id);
+  const thread = await fetchThreadById(parsedSearchParams.get("id") || "");
 
   return (
     <section className="relative">
@@ -37,7 +44,7 @@ async function page({ params }: { params: { id: string } }) {
 
       <div className="mt-7">
         <Comment
-          threadId={params.id}
+          threadId={parsedSearchParams.get("id") || ""}
           currentUserImg={user.imageUrl}
           currentUserId={JSON.stringify(userInfo._id)}
         />
