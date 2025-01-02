@@ -11,18 +11,18 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { fetchUser } from "@/lib/actions/user.actions";
 
 interface ProfilePageProps {
-  searchParams: {
+  params: {
     id: string;
   };
 }
 
-async function Page({ searchParams }: ProfilePageProps) {
-  const parsedSearchParams = new URLSearchParams(String(searchParams));
+async function Page({ params }: ProfilePageProps) {
+  const { id } = params;
   const user = await currentUser();
   if (!user) return null;
 
   const userInfo = await fetchUser({
-    userId: parsedSearchParams.get("id") || "",
+    userId: id || "",
   });
   if (!userInfo?.onboarded) redirect("/onboarding");
 
