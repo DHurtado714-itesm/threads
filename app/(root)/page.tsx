@@ -12,6 +12,7 @@ interface HomeProps {
 }
 
 async function Home({ searchParams }: HomeProps) {
+  const parsedSearchParams = new URLSearchParams(String(searchParams));
   const user = await currentUser();
   if (!user) return null;
 
@@ -19,7 +20,7 @@ async function Home({ searchParams }: HomeProps) {
   if (!userInfo?.onboarded) redirect("/onboarding");
 
   const result = await fetchPosts(
-    searchParams.page ? +searchParams.page : 1,
+    parsedSearchParams.get("page") ? +parsedSearchParams.get("page")! : 1,
     30
   );
 
